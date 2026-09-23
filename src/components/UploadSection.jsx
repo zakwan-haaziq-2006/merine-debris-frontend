@@ -15,7 +15,8 @@ import {
   Layers, 
   Radio,
   Sliders,
-  Cpu
+  Cpu,
+  Clock
 } from 'lucide-react';
 import SonarViewer from './SonarViewer';
 import DetectionCard from './DetectionCard';
@@ -35,6 +36,7 @@ export default function UploadSection() {
   const [pipelineData, setPipelineData] = useState(null);
   const [selectedBoxId, setSelectedBoxId] = useState(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [showNoticeModal, setShowNoticeModal] = useState(false);
 
   const fileInputRef = useRef(null);
   const resultsRef = useRef(null);
@@ -74,6 +76,7 @@ export default function UploadSection() {
     }
 
     setIsAnalyzing(true);
+    setShowNoticeModal(true);
 
     // Smooth scroll to results area
     setTimeout(() => {
@@ -151,8 +154,12 @@ export default function UploadSection() {
           </p>
         </div>
 
-        {/* Render Free Tier Hosting Notice Card */}
-        <RenderNoticeCard />
+        {/* Render Free Tier Hosting Notice Layer Modal */}
+        <RenderNoticeCard 
+          isOpen={showNoticeModal} 
+          onClose={() => setShowNoticeModal(false)} 
+          isAnalyzing={isAnalyzing} 
+        />
 
         {/* Upload & Survey Pipeline Control Panel */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
@@ -267,10 +274,20 @@ export default function UploadSection() {
                   <Sliders className="w-4 h-4 text-[#67D9E8]" />
                   <span>SURVEY TRANSECT CONFIGURATION</span>
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-mono text-emerald-300">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  API ONLINE
-                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setShowNoticeModal(true)}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-[10px] font-mono text-amber-300 hover:bg-amber-500/25 transition-colors cursor-pointer"
+                    title="View Server Hosting & Latency Notice"
+                  >
+                    <Clock className="w-3 h-3 text-amber-300" />
+                    <span>RENDER NOTICE</span>
+                  </button>
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-mono text-emerald-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    API ONLINE
+                  </span>
+                </div>
               </div>
 
               {/* Survey Location Note Input Strip */}
