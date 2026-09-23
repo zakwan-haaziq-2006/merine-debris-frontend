@@ -1,0 +1,168 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --color-ocean-950: #020b14;
+  --color-ocean-900: #031422;
+  --color-ocean-850: #031B2E;
+  --color-ocean-800: #062640;
+  --color-ocean-700: #0c3b5e;
+  --color-ocean-600: #145380;
+  --color-ocean-500: #1d71a8;
+  --color-ocean-400: #2b96d6;
+  --color-ocean-300: #5ab6eb;
+  --color-ocean-200: #9cd6f7;
+  --color-ocean-100: #d7effc;
+
+  --color-marine-dark: #06111C;
+  --color-marine-base: #031B2E;
+  --color-marine-surface: #0a233a;
+
+  --color-cyan-accent: #67D9E8;
+  --color-cyan-glow: #42c5d8;
+
+  --font-sans: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Space Grotesk', sans-serif;
+}
+
+:root {
+  --primary-deep: #031B2E;
+  --secondary-navy: #06111C;
+  --accent-cyan: #67D9E8;
+  --accent-cyan-glow: rgba(103, 217, 232, 0.4);
+  --text-white: #FFFFFF;
+  --text-muted: #8EA9C1;
+  --marine-border: rgba(103, 217, 232, 0.15);
+  --marine-card: rgba(3, 27, 46, 0.7);
+}
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #031422;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0c3b5e;
+  border-radius: 4px;
+  border: 1px solid rgba(103, 217, 232, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #145380;
+}
+
+/* Marine Glassmorphism */
+.glass-panel {
+  background: rgba(3, 27, 46, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(103, 217, 232, 0.16);
+  box-shadow: 0 8px 32px 0 rgba(1, 10, 18, 0.45);
+}
+
+.glass-panel-elevated {
+  background: rgba(4, 32, 54, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(103, 217, 232, 0.25);
+  box-shadow: 0 12px 40px 0 rgba(1, 10, 18, 0.65), 0 0 20px 0 rgba(103, 217, 232, 0.08);
+}
+
+.glass-button {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #FFFFFF;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.25), 0 0 40px rgba(103, 217, 232, 0.3);
+  transform: translateY(-2px);
+}
+
+.glass-button-cyan {
+  background: rgba(103, 217, 232, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(103, 217, 232, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-button-cyan:hover {
+  background: rgba(103, 217, 232, 0.22);
+  border-color: #67D9E8;
+  box-shadow: 0 0 25px rgba(103, 217, 232, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Water drift animation */
+@keyframes waterDrift {
+  0% { transform: scale(1.02) translate(0px, 0px); }
+  100% { transform: scale(1.06) translate(-12px, -8px); }
+}
+
+.animate-water-drift {
+  animation: waterDrift 18s ease-in-out infinite alternate;
+}
+
+/* Sonar Waterfall scanline */
+@keyframes scanline {
+  0% {
+    top: 0%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.animate-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #67D9E8, #FFFFFF, #67D9E8, transparent);
+  box-shadow: 0 0 12px #67D9E8, 0 0 24px rgba(103, 217, 232, 0.6);
+  animation: scanline 3.5s linear infinite;
+  pointer-events: none;
+}
+
+/* Acoustic grid overlay */
+.acoustic-grid {
+  background-size: 30px 30px;
+  background-image: 
+    linear-gradient(to right, rgba(103, 217, 232, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(103, 217, 232, 0.05) 1px, transparent 1px);
+}
+
+.acoustic-grid-dense {
+  background-size: 15px 15px;
+  background-image: 
+    linear-gradient(to right, rgba(103, 217, 232, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(103, 217, 232, 0.08) 1px, transparent 1px);
+}
+
+/* Leaflet dark custom style */
+.leaflet-container {
+  background: #020b14 !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(3, 27, 46, 0.95) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(103, 217, 232, 0.4) !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6) !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(3, 27, 46, 0.95) !important;
+}
