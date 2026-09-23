@@ -1,15 +1,15 @@
 import React from 'react';
-import { Server, Clock, ShieldCheck, X, RefreshCw, Radio, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Server, Clock, ShieldCheck, X, RefreshCw, Radio } from 'lucide-react';
 
 export default function RenderNoticeCard({ isOpen, onClose, isAnalyzing = false }) {
-  if (!isOpen && !isAnalyzing) return null;
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-      {/* Click outside to close if not analyzing */}
+      {/* Click outside to close */}
       <div 
         className="absolute inset-0" 
-        onClick={() => !isAnalyzing && onClose?.()} 
+        onClick={onClose} 
       />
 
       <div className="relative z-10 w-full max-w-2xl overflow-hidden rounded-2xl bg-gradient-to-b from-[#031b2e] via-[#04243e] to-[#020b14] border border-[#67D9E8]/40 p-6 md:p-8 shadow-[0_0_50px_rgba(103,217,232,0.25)] space-y-6">
@@ -33,15 +33,13 @@ export default function RenderNoticeCard({ isOpen, onClose, isAnalyzing = false 
             </div>
           </div>
 
-          {!isAnalyzing && (
-            <button
-              onClick={onClose}
-              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors border border-white/10"
-              title="Close Notice"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          )}
+          <button
+            onClick={onClose}
+            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors border border-white/10 cursor-pointer"
+            title="Close Notice"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Live Processing Radar Indicator if Analyzing */}
@@ -59,7 +57,7 @@ export default function RenderNoticeCard({ isOpen, onClose, isAnalyzing = false 
                 <span>YOLOv8 VISION + GEMINI INFERENCE ACTIVE</span>
               </div>
               <p className="text-[11px] text-[#8EA9C1]">
-                Executing acoustic anomaly detection & ISO survey report synthesis...
+                Executing acoustic anomaly detection & ISO survey report synthesis in background...
               </p>
             </div>
           </div>
@@ -98,7 +96,7 @@ export default function RenderNoticeCard({ isOpen, onClose, isAnalyzing = false 
         <div className="pt-2 flex items-center justify-end gap-3 border-t border-white/10">
           <button
             onClick={onClose}
-            className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-[#67D9E8] hover:bg-white text-[#031B2E] font-mono text-xs font-bold tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(103,217,232,0.3)]"
+            className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-[#67D9E8] hover:bg-white text-[#031B2E] font-mono text-xs font-bold tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(103,217,232,0.3)] cursor-pointer"
           >
             {isAnalyzing ? 'Understand & Continue Processing' : 'Close Notice'}
           </button>
